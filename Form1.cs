@@ -102,34 +102,22 @@ namespace SpaceInvaders
         {
             int maxHeight = 0;
 
-            // Move right if true, move left if false
-            if (enemyDirection)
-            {
-                for (int i = 0; i < enemyList.Count; i++)
-                {
-                    int x = enemyList[i].XYCoordinates.X + sqSize;
-                    int y = enemyList[i].XYCoordinates.Y;
-                    maxHeight = Math.Max(maxHeight, y);
+            // Enemies move right if enemyDirection is true, move left if false
+            int direction = enemyDirection ? 1 : -1;
 
-                    enemyList[i] = new Alien(sqSize, x, y, enemyList[i].PointValue);
-                }
-            }
-            else if (!enemyDirection)
+            for (int i = 0; i < enemyList.Count; i++)
             {
-                for (int i = 0; i < enemyList.Count; i++)
-                {
-                    int x = enemyList[i].XYCoordinates.X - sqSize;
-                    int y = enemyList[i].XYCoordinates.Y;
-                    maxHeight = Math.Max(maxHeight, y);
+                int x = enemyList[i].XYCoordinates.X + (sqSize * direction);
+                int y = enemyList[i].XYCoordinates.Y;
+                maxHeight = Math.Max(maxHeight, y);
 
-                    enemyList[i] = new Alien(sqSize, x, y, enemyList[i].PointValue);
-                }
+                enemyList[i] = new Alien(sqSize, x, y, enemyList[i].PointValue);
             }
 
             // Enemies move down when they reach the left or right border but will stop before reaching the player
             int rightMostEnemy = enemyList[^1].XYCoordinates.X;
             int leftMostEnemy = enemyList[0].XYCoordinates.X;
-            int rightBorder = ClientSize.Width - sqSize * 3;
+            int rightBorder = ClientSize.Width - sqSize * 4;
             int leftBorder = sqSize;
 
             if (rightMostEnemy == rightBorder || leftMostEnemy == leftBorder)
